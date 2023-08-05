@@ -76,7 +76,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
                             print(e)
                             return
                     
-                    message_file_ids += f"{str(msg_type.file_id)}:"
+                    message_file_ids += f"{str(msg_type.file_id)}/"
                     db_file_id.append(f"{str(msg_type.file_id)}")
                 except Exception as e:
                     await editable.edit(f"Something Went Wrong in get media caption or get file_id!\n\n**Error:** `{err}`")
@@ -86,7 +86,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
             db_file_to64.append(str_to_b64(str(sent_message.id)))
             await asyncio.sleep(3)
         
-        msg_ids_file_ids = (message_ids_str).rstrip()+"|"+(message_file_ids).rstrip(":")
+        msg_ids_file_ids = (message_ids_str).rstrip()+"|"+(message_file_ids).rstrip("/")
         SaveMessage = await bot.send_message(
             chat_id=DB_CHANNEL,
             text=msg_ids_file_ids,
@@ -143,7 +143,6 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         try:
             try:
                 if len(db_file_id)==len(db_file_caption)==len(db_file_name)==len(db_file_to64):
-                    print(f"{db_file_id}:{db_file_caption}:{db_file_name}")
                     await editable.edit(f"**sending medias to db**")
                 bot_username = Config.BOT_USERNAME
                 channel_string = Channel_string
