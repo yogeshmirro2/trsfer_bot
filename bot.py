@@ -86,7 +86,6 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
     elif "Link" in message.text:
         if "Batch Link" in message.text:
             msg_reply_markup = await bot.get_messages(FROM_CHANNEL_ID,message.id-1)
-            print(msg_reply_markup)
             msg_ids_lis = sorted(msg_reply_markup.text.split())
             msg_ids_list = []
             for i in msg_ids_lis:
@@ -145,7 +144,7 @@ async def transfer(bot: Client, m: Message):
                 channel_posts = AsyncIter(await bot.get_messages(FROM_CHANNEL_ID, total_messages[i:i+200]))
                 async for message in channel_posts:
                     try:
-                        if message.empty or message.service or not message.media:
+                        if message.empty or message.service:
                             total+=1
                             continue
                         result = await proces(bot,txt,message,FROM_CHANNEL_ID)
