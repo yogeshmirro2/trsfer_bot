@@ -1,0 +1,12 @@
+Pyrogram==2.0.1
+TgCrypto
+motor
+aiofiles
+dnspython
+psutil
+requests
+pymongo
+aiohttp
+psutil
+gunicorn
+flask
