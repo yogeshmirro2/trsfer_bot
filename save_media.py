@@ -138,7 +138,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
                 await asyncio.sleep(2)
             except Exception as e:
                 #await editabl.edit(f"got error in sending photo with caption\n\n**Error:** `{e}`")
-                await bot.send_message(f"got error in sending photo with caption message_ids{message_ids_str} \n\n**Error:** `{e}`")
+                await bot.send_message(chat_id=int(log_channel),text=f"got error in sending photo with caption message_ids{message_ids_str} \n\n**Error:** `{e}`")
         try:
             try:
                 if len(db_file_id)==len(db_file_caption)==len(db_file_name)==len(db_file_to64):
