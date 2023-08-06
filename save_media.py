@@ -66,8 +66,10 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
                     media_captions.append(f"**👉  {sent_message.caption} {await get_file_size(sent_message)}**" if sent_message.caption else f"**👉 **")
                     db_file_caption.append(f"{sent_message.caption}" if sent_message.caption and len(sent_message.caption)>0 else f"No_Caption")
                     db_file_name.append(f"{msg_type.file_name}" if msg_type.file_name and len(msg_type.file_name)>0 else "No_file_name")
-                    
-                    if (not media_thumb_id) and (msg_type is not None):
+                    db_file_to64.append(str_to_b64(str(sent_message.id)))
+                    db_file_id.append(f"{str(msg_type.file_id)}")
+                    message_file_ids += f"{str(msg_type.file_id)}/"
+                    if not media_thumb_id:
                         try:
                             if msg_type.thumbs:
                                 media_thumb_id+=f"{msg_type.thumbs[0].file_id}"
@@ -75,15 +77,13 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
                             await editable.edit(f"Something Went Wrong to get media thumb!\n\n**Error:** `{err}`")
                             print(e)
                             return
-                    
-                    message_file_ids += f"{str(msg_type.file_id)}/"
-                    db_file_id.append(f"{str(msg_type.file_id)}")
                 except Exception as e:
                     await editable.edit(f"Something Went Wrong in get media caption or get file_id!\n\n**Error:** `{err}`")
                     print(e)
                     return
+            else:
+                message_file_ids+=f"{str(sent_message.id)}/"
             message_ids_str+=f"{str(sent_message.id)} "
-            db_file_to64.append(str_to_b64(str(sent_message.id)))
             await asyncio.sleep(3)
         
         msg_ids_file_ids = (message_ids_str).rstrip()+"|"+(message_file_ids).rstrip("/")
@@ -116,7 +116,6 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         
         if not media_thumb_id and await db.get_default_thumb_status():
             try:
-                
                 media_thumb_id = await db.get_thumb_id()
                 if media_thumb_id is None:
                     await editable.reply_text("**set_default_thumb is enable but there is not thubmnail set by you.\nplz set a thumbnail first to get all media caption with thumbnail in photo_send_channel**")
@@ -148,6 +147,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
                 channel_string = Channel_string
                 for i in range(len(db_file_id)):
                     await db2.adding_media_to_db(bot_username,channel_string,db_file_to64[i],db_file_id[i],db_file_caption[i],db_file_name[i])
+                await editable.edit(f"successfully send medias to db")                        
             except Exception as e:
                 await editable.edit(f"got error in getting db_media_database\n\n**Error:** `{e}`")
                 return
@@ -201,6 +201,9 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         msg_type = await get_file_attr(forwarded_msg)
         if msg_type is not None:
             msg_file_id+=f"{msg_type.file_id}"
+        else:
+            msg_file_id+=f"{forwarded_msg.id}"
+            
         message_er_id+=str(forwarded_msg.id)
         file_id_msg_id = message_er_id+"|"+msg_file_id
         SaveMessage = await bot.send_message(
@@ -281,7 +284,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
                 dbfile_caption = forwarded_msg.caption if forwarded_msg.caption and len(forwarded_msg.caption)>0 else "No_caption"
                 dbfile_name = msg_type.file_name if msg_type.file_name and len(msg_type.file_name)>0 else "No_file_name"
                 await db2.adding_media_to_db(bot_username,channel_string,key,dbfile_id,dbfile_caption,dbfile_name)
-                
+                await editable.edit(f"successfully send media to db")
         except Exception as e:
             await editable.edit(f"got error in sending media to db\n\n**Error:** `{e}`")
             await asyncio.Sleep(5)
@@ -320,3 +323,6 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
                     ]
                 )
             )
+
+
+
