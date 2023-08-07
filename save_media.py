@@ -30,7 +30,7 @@ async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,mess
         return await send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str)
     except Exception as e:
         #await editabl.edit(f"got error in sending photo with caption\n\n**Error:** `{e}`")
-        return await bot.send_message(chat_id=int(log_channel),text=f"got error in sending photo with caption message_ids {message_ids_str} \n\n**Error:** `{e}`")
+        return await bot.send_message(chat_id=int(log_channel),text=f"got error in sending photo with caption message_ids {message_ids_str} \ntype : {str(type(e))}\n\n**Error:** `{e}`")
 
 
 async def forward_to_channel(DB_CHANNEL, log_channel, bot: Client, message: Message, editable: Message):
@@ -188,7 +188,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         
         
     except Exception as err:
-        await editable.edit(f"Something Went Wrong!\n\n**Error:** `{err}`")
+        await editable.edit(f"Something Went Wrong!type : {strt(type(e))}\n\n**Error:** `{err}`")
         if log_channel is not None:
             await bot.send_message(
                 chat_id=int(log_channel),
