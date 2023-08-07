@@ -142,7 +142,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
             media_captions = sorted(media_captions)
             media_captions = "\n\n".join(media_captions)
             media_captions1=f"Here is the Permanent Link of your Content: <a href={share_link}>Download Link</a>\n\nJust Click on download to get your Content!\n\nyour Content name are:👇\n\n{media_captions}\n\n{add_detail}" 
-            await send_photo(bot,editable,photo_send_channel,media_thumb_id,media_captions1,message_ids_str):
+            await send_photo(bot,editable,photo_send_channel,media_thumb_id,media_captions1,message_ids_str)
             # try:
             #     await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
             #     #thumb_path = await bot.download_media(media_thumb_id,f"{Config.DOWNLOAD_DIR}/{media_thumb_id}")
