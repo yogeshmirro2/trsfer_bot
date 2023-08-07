@@ -90,14 +90,19 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
             msg_ids_list = []
             for i in msg_ids_lis:
                 msg_ids_list.append(int(i))
-            await save_batch_media_in_channel(bot,txt,msg_ids_list,FROM_CHANNEL_ID)
-            await asyncio.sleep(6)
-            return "done"
+            error = await save_batch_media_in_channel(bot,txt,msg_ids_list,FROM_CHANNEL_ID)
+            if error=='false':
+                return "false"
+            else:
+                return 'done'
         if "Got File Link" in message.text:
             msg = await bot.get_messages(FROM_CHANNEL_ID,message.id-1)
-            await save_media_in_channel(bot,txt,msg)
-            await asyncio.sleep(6)
-            return "done"
+            mk = await save_media_in_channel(bot,txt,msg)
+            if mk=='false':
+                return 'false'
+            else:
+                
+                return "done"
             
     else:
         return "go"
@@ -129,7 +134,7 @@ async def transfer(bot: Client, m: Message):
         return await m.reply_text(f"somthing went wrong to getting mesaage_id error - {e}")
     
     try:
-        
+        loops = 'true'
         start_time = datetime.datetime.now()
         txt = await m.reply_text(text="trasfering Started!")
         text = await bot.send_message(FROM_CHANNEL_ID, ".")
@@ -154,6 +159,9 @@ async def transfer(bot: Client, m: Message):
                         if "done" in result:
                             success+=1
                             total+=1
+                        if "false" in result:
+                            loops = 'false'
+                            break
                     except FloodWait as e:
                         await bot.send_message(m.from_user.id,f"sleeping for {e.value} sec")
                         await asyncio.sleep(e.value)    
@@ -163,6 +171,9 @@ async def transfer(bot: Client, m: Message):
                         if "done"in result:
                             success+=1
                             total+=1
+                        if "false" in result:
+                            loops = 'false'
+                            break
                     except Exception as e:
                         fail_msg_id.append(message.id)
                         await bot.send_message(m.from_user.id,f"this msg_id {message.id} give error {e}")
@@ -172,6 +183,9 @@ async def transfer(bot: Client, m: Message):
                         msg = f"Batch trasfering in Process !\n\nTotal: {total}\nSuccess: {success}\nFailed: {fail_msg_id}"
                         await txt.edit(msg)
                         asyncio.sleep(3)
+                if loops=='false':
+                    await m.reply(f"photo vaala error")
+                    break
         except Exception as e:
             await m.reply(f"Error Occured while processing batch: `{e.message}`")
             return
