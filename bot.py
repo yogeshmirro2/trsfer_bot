@@ -151,7 +151,6 @@ async def transfer(bot: Client, m: Message):
                         result = await proces(bot,txt,message,FROM_CHANNEL_ID)
                         if "go" in result:
                             total+=1
-                            continue
                         if "done" in result:
                             success+=1
                             total+=1
