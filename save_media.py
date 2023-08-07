@@ -57,7 +57,7 @@ async def forward_to_channel(DB_CHANNEL, log_channel, bot: Client, message: Mess
 async def save_batch_media_in_channel(bot: Client, editable: Message, message_ids: list,FROM_CHANNEL_ID):
     try:
         DB_CHANNELS = await get_working_db_channel_id()
-        DB_CHANNEL = int(-100f"{DB_CHANNELS}")
+        DB_CHANNEL = int("-100"+f"{DB_CHANNELS}")
         log_channel = await db.check_log_channel_id()
         photo_send_channel = await db.check_video_photo_send()
         Channel_string = f"store_{DB_CHANNELS}"#await get_working_channel_string()
@@ -204,7 +204,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
 async def save_media_in_channel(bot: Client, editable: Message, message: Message):
     try:
         DB_CHANNELS = await get_working_db_channel_id()
-        DB_CHANNEL = int(-100f"{DB_CHANNELS})
+        DB_CHANNEL = int("-100"+f"{DB_CHANNELS}")
         log_channel = await db.check_log_channel_id()
         photo_send_channel = await db.check_video_photo_send()
         Channel_string = f"store_{DB_CHANNELS}"#await get_working_channel_string()
