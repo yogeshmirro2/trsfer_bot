@@ -19,10 +19,10 @@ from rm import rm_dir,rm_file
 
 async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str,log_channel):
     try:
-        await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
+        #await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
         thumb_path = await bot.download_media(media_thumb_id)
         await bot.send_photo(int(photo_send_channel),thumb_path,caption)
-        await editable.edit("**thumbnail with media_captions has been sent to your VIDEO_PHOTO_SEND channel**")
+        #await editable.edit("**thumbnail with media_captions has been sent to your VIDEO_PHOTO_SEND channel**")
         await rm_dir()
     
     except FloodWait as sl:
