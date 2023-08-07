@@ -20,24 +20,18 @@ from rm import rm_dir,rm_file
 async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str,log_channel):
     try:
         #await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
-        try:
-            thumb_path = await bot.download_media(media_thumb_id)
-        except pyrogram.errors.exceptions.flood_420.FloodWait as sl:
-            await asyncio.sleep(sl.value)
-            thumb_path = await bot.download_media(media_thumb_id)
-        except Exception as e:
-            return await bot.send_message(chat_id=int(log_channel),text=f"gota error in sending photo with caption message_ids {message_ids_str} \ntype : {str(type(e))}\n\n**Error:** `{e}`")
+        thumb_path = await bot.download_media(media_thumb_id)
         await bot.send_photo(int(photo_send_channel),thumb_path,caption)
         #await editable.edit("**thumbnail with media_captions has been sent to your VIDEO_PHOTO_SEND channel**")
         await rm_dir()
     
-    except pyrogram.errors.exceptions.flood_420.FloodWait as sl:
+    except FloodWait as sl:
         await asyncio.sleep(sl.value)
         return await send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str)
     except Exception as e:
         #await editabl.edit(f"got error in sending photo with caption\n\n**Error:** `{e}`")
-        return await bot.send_message(chat_id=int(log_channel),text=f"got error in sending photo with caption message_ids {message_ids_str} \ntype : {str(type(e))}\n\n**Error:** `{e}`")
-
+        await bot.send_message(chat_id=int(log_channel),text=f"got error in sending photo with caption message_ids {message_ids_str} \ntype : {str(type(e))}\n\n**Error:** `{e}`")
+        return "false"
 
 async def forward_to_channel(DB_CHANNEL, log_channel, bot: Client, message: Message, editable: Message):
     try:
@@ -148,7 +142,10 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
             media_captions = sorted(media_captions)
             media_captions = "\n\n".join(media_captions)
             media_captions1=f"Here is the Permanent Link of your Content: <a href={share_link}>Download Link</a>\n\nJust Click on download to get your Content!\n\nyour Content name are:👇\n\n{media_captions}\n\n{add_detail}" 
-            await send_photo(bot,editable,photo_send_channel,media_thumb_id,media_captions1,message_ids_str,log_channel)
+            mssg = await send_photo(bot,editable,photo_send_channel,media_thumb_id,media_captions1,message_ids_str,log_channel)
+            if mssg=='false':
+                return 'false'
+            
             # try:
             #     await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
             #     #thumb_path = await bot.download_media(media_thumb_id,f"{Config.DOWNLOAD_DIR}/{media_thumb_id}")
@@ -194,7 +191,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         
         
     except Exception as err:
-        await editable.edit(f"Something Went Wrong!type : {str(type(e))}\n\n**Error:** `{err}`")
+        await editable.edit(f"Something Went Wrong!type : {str(type(err))}\n\n**Error:** `{err}`")
         if log_channel is not None:
             await bot.send_message(
                 chat_id=int(log_channel),
@@ -278,7 +275,9 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         
                 
             if thumb_id and photo_send_channel is not None:
-                await send_photo(bot,editable,photo_send_channel,thumb_id,media_captions,message_er_id,log_channel)
+                mes = await send_photo(bot,editable,photo_send_channel,thumb_id,media_captions,message_er_id,log_channel)
+                if mes=='false':
+                    return 'false'
                 # await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
                 # try:
                 #     add_detail = await db.get_add_detail()
