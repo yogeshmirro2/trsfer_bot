@@ -183,9 +183,14 @@ async def transfer(bot: Client, m: Message):
                         msg = f"Batch trasfering in Process !\n\nTotal: {total}\nSuccess: {success}\nFailed: {fail_msg_id}"
                         await txt.edit(msg)
                         await asyncio.sleep(3)
+                    if success % 30 == 0:
+                        await asyncio.sleep(600)
+                
+                
                 if loops=='false':
                     await m.reply(f"photo vaala error")
                     break
+                    
         except Exception as e:
             await m.reply(f"Error Occured while processing batch: `{e.message}`")
             return
