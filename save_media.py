@@ -20,7 +20,13 @@ from rm import rm_dir,rm_file
 async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str,log_channel):
     try:
         #await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
-        thumb_path = await bot.download_media(media_thumb_id)
+        try:
+            thumb_path = await bot.download_media(media_thumb_id)
+        except FloodWait as sl:
+            await asyncio.sleep(sl.value)
+            thumb_path = await bot.download_media(media_thumb_id)
+        except Exception as e:
+            return await bot.send_message(chat_id=int(log_channel),text=f"got error in sending photo with caption message_ids {message_ids_str} \ntype : {str(type(e))}\n\n**Error:** `{e}`")
         await bot.send_photo(int(photo_send_channel),thumb_path,caption)
         #await editable.edit("**thumbnail with media_captions has been sent to your VIDEO_PHOTO_SEND channel**")
         await rm_dir()
