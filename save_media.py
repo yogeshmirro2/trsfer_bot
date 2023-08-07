@@ -25,7 +25,7 @@ async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,mess
         #await editable.edit("**thumbnail with media_captions has been sent to your VIDEO_PHOTO_SEND channel**")
         await rm_dir()
         return 'true'
-    except pyrogram.errors.exceptions.flood_420.FloodWait as sl:
+    except FloodWait as sl:
         await asyncio.sleep(sl.value)
         return await send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str)
     except Exception as e:
