@@ -172,6 +172,7 @@ async def transfer(bot: Client, m: Message):
                     if total % 10 == 0:
                         msg = f"Batch trasfering in Process !\n\nTotal: {total}\nSuccess: {success}\nFailed: {fail_msg_id}"
                         await txt.edit(msg)
+                        asyncio.sleep(3)
         except Exception as e:
             await m.reply(f"Error Occured while processing batch: `{e.message}`")
             return
