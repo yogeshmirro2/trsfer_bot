@@ -194,7 +194,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         
         
     except Exception as err:
-        await editable.edit(f"Something Went Wrong!type : {strt(type(e))}\n\n**Error:** `{err}`")
+        await editable.edit(f"Something Went Wrong!type : {str(type(e))}\n\n**Error:** `{err}`")
         if log_channel is not None:
             await bot.send_message(
                 chat_id=int(log_channel),
