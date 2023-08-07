@@ -91,11 +91,12 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
             for i in msg_ids_lis:
                 msg_ids_list.append(int(i))
             await save_batch_media_in_channel(bot,txt,msg_ids_list,FROM_CHANNEL_ID)
-            #await asyncio.sleep(6)
+            await asyncio.sleep(6)
             return "done"
         if "Got File Link" in message.text:
             msg = await bot.get_messages(FROM_CHANNEL_ID,message.id-1)
             await save_media_in_channel(bot,txt,msg)
+            await asyncio.sleep(6)
             return "done"
             
     else:
