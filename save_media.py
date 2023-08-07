@@ -258,7 +258,9 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         
         if msg_type is not None:
             try:
+                add_detail = await db.get_add_detail()
                 media_captions+=f"**👉 {forwarded_msg.caption} {await get_file_size(forwarded_msg)}**" if forwarded_msg.caption else f"**👉 **"
+                media_captions1=f"Here is the Permanent Link of your Content: <a href={share_link}>Download Link</a>\n\nJust Click on download to get your Content!\n\nyour Content name are:👇\n\n{media_captions}\n\n{add_detail}"
                 thumb_id += msg_type.thumbs[0].file_id if msg_type.thumbs else ""
             except Exception as e:
                 await editable.edit(f"Something Went Wrong in to get thumb_id or media_caption!\n\n**Error:** `{e}`")
@@ -275,7 +277,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         
                 
             if thumb_id and photo_send_channel is not None:
-                mes = await send_photo(bot,editable,photo_send_channel,thumb_id,media_captions,message_er_id,log_channel)
+                mes = await send_photo(bot,editable,photo_send_channel,thumb_id,media_captions1,message_er_id,log_channel)
                 if mes=='false':
                     return 'false'
                 # await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
