@@ -182,11 +182,12 @@ async def transfer(bot: Client, m: Message):
                     if total % 10 == 0:
                         msg = f"Batch trasfering in Process !\n\nTotal: {total}\nSuccess: {success}\nFailed: {fail_msg_id}"
                         await txt.edit(msg)
-                    if success % 30 == 0:
-                        mr = await m.reply(f"sleeping for 10 min.")
-                        await asyncio.sleep(600)
-                        await mr.delete()
-                
+                    if success>50:
+                        if success % 50 == 0:
+                            mr = await m.reply(f"sleeping for 10 min")
+                            await asyncio.sleep(600)
+                            await mr.delete()
+                    
                 if loops=='false':
                     await m.reply(f"photo vaala error")
                     break
