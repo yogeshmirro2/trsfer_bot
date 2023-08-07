@@ -17,7 +17,7 @@ from multi_channel import get_working_channel_string, get_working_db_channel_id
 from rm import rm_dir,rm_file
 
 
-async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str):
+async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str,log_channel):
     try:
         await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
         thumb_path = await bot.download_media(media_thumb_id)
@@ -142,7 +142,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
             media_captions = sorted(media_captions)
             media_captions = "\n\n".join(media_captions)
             media_captions1=f"Here is the Permanent Link of your Content: <a href={share_link}>Download Link</a>\n\nJust Click on download to get your Content!\n\nyour Content name are:👇\n\n{media_captions}\n\n{add_detail}" 
-            await send_photo(bot,editable,photo_send_channel,media_thumb_id,media_captions1,message_ids_str)
+            await send_photo(bot,editable,photo_send_channel,media_thumb_id,media_captions1,message_ids_str,log_channel)
             # try:
             #     await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
             #     #thumb_path = await bot.download_media(media_thumb_id,f"{Config.DOWNLOAD_DIR}/{media_thumb_id}")
@@ -272,7 +272,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         
                 
             if thumb_id and photo_send_channel is not None:
-                await send_photo(bot,editable,photo_send_channel,thumb_id,media_captions,message_er_id)
+                await send_photo(bot,editable,photo_send_channel,thumb_id,media_captions,message_er_id,log_channel)
                 # await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
                 # try:
                 #     add_detail = await db.get_add_detail()
