@@ -19,6 +19,8 @@ from rm import rm_dir,rm_file
 
 async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str,log_channel):
     try:
+        if len(caption)>1024:
+            caption = caption[0:1020]
         #await editable.edit("**sending thumbnail with all Content caption to your VIDEO_PHOTO_SEND channel**")
         thumb_path = await bot.download_media(media_thumb_id)
         await bot.send_photo(int(photo_send_channel),thumb_path,caption)
@@ -101,14 +103,27 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
             await asyncio.sleep(4)
         
         #msg_ids_file_ids = (message_ids_str).rstrip()+"|"+(message_file_ids).rstrip("/")
-        SaveMessage = await bot.send_message(
-            chat_id=DB_CHANNEL,
-            text=message_ids_str,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("Delete Batch", callback_data="closeMessage")
-            ]])
-        )
+        try:
+            
+            SaveMessage = await bot.send_message(
+                chat_id=DB_CHANNEL,
+                text=message_ids_str,
+                disable_web_page_preview=True,
+                reply_markup=InlineKeyboardMarkup([[
+                    InlineKeyboardButton("Delete Batch", callback_data="closeMessage")
+                ]])
+            )
+        except FloodWait as e:
+            asyncio.sleep(e.value)
+            SaveMessage = await bot.send_message(
+                chat_id=DB_CHANNEL,
+                text=message_ids_str,
+                disable_web_page_preview=True,
+                reply_markup=InlineKeyboardMarkup([[
+                    InlineKeyboardButton("Delete Batch", callback_data="closeMessage")
+                ]])
+            )
+        
         share_link1 = f"https://t.me/{Config.BOT_USERNAME}?start={Channel_string}_{str_to_b64(str(SaveMessage.id))}"
         if each_short_link:
             try:
@@ -122,12 +137,20 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         else:
             share_link = share_link1
         
-        await bot.send_message(
-            chat_id=int(DB_CHANNEL),
-            text=f"#BATCH_SAVE:\n\nGot Batch Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
-            disable_web_page_preview=True
-        )
-        
+        try:
+            
+            await bot.send_message(
+                chat_id=int(DB_CHANNEL),
+                text=f"#BATCH_SAVE:\n\nGot Batch Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
+                disable_web_page_preview=True
+            )
+        except FloodWait as e:
+            asyncio.sleep(e.value)
+            await bot.send_message(
+                chat_id=int(DB_CHANNEL),
+                text=f"#BATCH_SAVE:\n\nGot Batch Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
+                disable_web_page_preview=True
+            )
         if not media_thumb_id and await db.get_default_thumb_status():
             try:
                 media_thumb_id = await db.get_thumb_id()
@@ -229,14 +252,26 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
             
         message_er_id+=str(forwarded_msg.id)
         #file_id_msg_id = message_er_id+"|"+msg_file_id
-        SaveMessage = await bot.send_message(
-            chat_id=DB_CHANNEL,
-            text=message_er_id,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("Delete file", callback_data="closeMessage")
-            ]])
-        )
+        try:
+            SaveMessage = await bot.send_message(
+                chat_id=DB_CHANNEL,
+                text=message_er_id,
+                disable_web_page_preview=True,
+                reply_markup=InlineKeyboardMarkup([[
+                    InlineKeyboardButton("Delete file", callback_data="closeMessage")
+                ]])
+            )
+        
+        except FloodWait as e:
+            asyncio.sleep(e.value)
+            SaveMessage = await bot.send_message(
+                chat_id=DB_CHANNEL,
+                text=message_er_id,
+                disable_web_page_preview=True,
+                reply_markup=InlineKeyboardMarkup([[
+                    InlineKeyboardButton("Delete file", callback_data="closeMessage")
+                ]])
+            )
         
         share_link1 = f"https://t.me/{Config.BOT_USERNAME}?start={Channel_string}_{str_to_b64(str(SaveMessage.id))}"
         if each_short_link:
@@ -251,7 +286,15 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         else:
             share_link = share_link1
     
-        await forwarded_msg.reply_text(
+        try:
+        
+            await forwarded_msg.reply_text(
+            f"#PRIVATE_FILE:\n\nGot File Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
+            disable_web_page_preview=True)
+        
+        except FloodWait as e:
+            asyncio.sleep(e.value)
+            await forwarded_msg.reply_text(
             f"#PRIVATE_FILE:\n\nGot File Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
             disable_web_page_preview=True)
         
