@@ -114,7 +114,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
                 ]])
             )
         except FloodWait as e:
-            asyncio.sleep(e.value)
+            await asyncio.sleep(e.value)
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
                 text=message_ids_str,
@@ -145,7 +145,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
                 disable_web_page_preview=True
             )
         except FloodWait as e:
-            asyncio.sleep(e.value)
+            await asyncio.sleep(e.value)
             await bot.send_message(
                 chat_id=int(DB_CHANNEL),
                 text=f"#BATCH_SAVE:\n\nGot Batch Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
@@ -263,7 +263,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
             )
         
         except FloodWait as e:
-            asyncio.sleep(e.value)
+            await asyncio.sleep(e.value)
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
                 text=message_er_id,
@@ -293,7 +293,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
             disable_web_page_preview=True)
         
         except FloodWait as e:
-            asyncio.sleep(e.value)
+            await asyncio.sleep(e.value)
             await forwarded_msg.reply_text(
             f"#PRIVATE_FILE:\n\nGot File Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
             disable_web_page_preview=True)
