@@ -29,7 +29,8 @@ async def send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,mess
         return 'true'
     except FloodWait as sl:
         await asyncio.sleep(sl.value)
-        return await send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str)
+        await send_photo(bot,editable,photo_send_channel,media_thumb_id,caption,message_ids_str)
+        return 'true'
     except Exception as e:
         #await editabl.edit(f"got error in sending photo with caption\n\n**Error:** `{e}`")
         await bot.send_message(chat_id=int(log_channel),text=f"got error in sending photo with caption message_ids {message_ids_str} \ntype : {str(type(e))}\n\n**Error:** `{e}`")
