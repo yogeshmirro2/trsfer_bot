@@ -183,8 +183,8 @@ async def transfer(bot: Client, m: Message):
                         msg = f"Batch trasfering in Process !\n\nTotal: {total}\nSuccess: {success}\nFailed: {fail_msg_id}"
                         await txt.edit(msg)
                     if success==check:
-                        mr = await m.reply(f"sleeping for 10 min")
-                        await asyncio.sleep(600)
+                        mr = await m.reply(f"sleeping for 20 min")
+                        await asyncio.sleep(1200)
                         check+=50
                         await mr.delete()
                     
