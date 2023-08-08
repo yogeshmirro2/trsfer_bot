@@ -57,7 +57,6 @@ BotCmdList = ["start","change_default_thumb_status","set_thumbnail","delete_thum
 "change_short_each_link","change_how_to_verify","delete_how_to_verify"]
 Bot = Client(
     name=Config.BOT_USERNAME,
-    in_memory=True,
     bot_token=Config.BOT_TOKEN,
     api_id=Config.API_ID,
     api_hash=Config.API_HASH
