@@ -134,6 +134,7 @@ async def transfer(bot: Client, m: Message):
         return await m.reply_text(f"somthing went wrong to getting mesaage_id error - {e}")
     
     try:
+        check = 50
         loops = 'true'
         start_time = datetime.datetime.now()
         txt = await m.reply_text(text="trasfering Started!")
@@ -156,7 +157,6 @@ async def transfer(bot: Client, m: Message):
                         result = await proces(bot,txt,message,FROM_CHANNEL_ID)
                         if "go" in result:
                             total+=1
-                            continue
                         if "done" in result:
                             success+=1
                             total+=1
@@ -169,7 +169,6 @@ async def transfer(bot: Client, m: Message):
                         result = await proces(bot,txt,message,FROM_CHANNEL_ID)
                         if "go" in result:
                             total+=1
-                            continue
                         if "done"in result:
                             success+=1
                             total+=1
@@ -184,11 +183,11 @@ async def transfer(bot: Client, m: Message):
                     if total % 10 == 0:
                         msg = f"Batch trasfering in Process !\n\nTotal: {total}\nSuccess: {success}\nFailed: {fail_msg_id}"
                         await txt.edit(msg)
-                    if success>50:
-                        if success % 50 == 0:
-                            mr = await m.reply(f"sleeping for 10 min")
-                            await asyncio.sleep(600)
-                            await mr.delete()
+                    if success==check:
+                        mr = await m.reply(f"sleeping for 10 min")
+                        await asyncio.sleep(600)
+                        check+=50
+                        await mr.delete()
                     
                 if loops=='false':
                     await m.reply(f"photo vaala error")
