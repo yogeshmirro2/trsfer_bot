@@ -83,7 +83,8 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
         return "go"
     
     elif "Link" in message.text or message.reply_markup:
-        if not ("Batch Link" or 'Got File Link') in message.text and message.reply_markup:
+        if not "Batch Link" and not 'Got File Link' in message.text and message.reply_markup:
+            return "go"
             #msg_reply_markup = await bot.get_messages(FROM_CHANNEL_ID,message.id)
             msg_ids_lis = sorted(message.text.split())
             msg_ids_list = []
