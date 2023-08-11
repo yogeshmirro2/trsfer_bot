@@ -83,8 +83,8 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
         return "go"
     
     elif "Link" in message.text:
-        if "Batch Link" in message.text:
-            msg_reply_markup = await bot.get_messages(FROM_CHANNEL_ID,message.id-1)
+        if not "Batch Link" in message.text and message.reply_markup:
+            msg_reply_markup = await bot.get_messages(FROM_CHANNEL_ID,message.id)
             msg_ids_lis = sorted(msg_reply_markup.text.split())
             msg_ids_list = []
             for i in msg_ids_lis:
@@ -133,7 +133,7 @@ async def transfer(bot: Client, m: Message):
         return await m.reply_text(f"somthing went wrong to getting mesaage_id error - {e}")
     
     try:
-        check = 100
+        check = 50
         loops = 'true'
         start_time = datetime.datetime.now()
         txt = await m.reply_text(text="trasfering Started!")
@@ -185,7 +185,7 @@ async def transfer(bot: Client, m: Message):
                     if success==check:
                         mr = await m.reply(f"sleeping for 20 min")
                         await asyncio.sleep(1200)
-                        check+=100
+                        check+=50
                         await mr.delete()
                     
                 if loops=='false':
