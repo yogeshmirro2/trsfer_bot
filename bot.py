@@ -82,10 +82,10 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
     if message.video or message.document:
         return "go"
     
-    elif "Link" in message.text:
-        if not "Batch Link" in message.text and message.reply_markup:
-            msg_reply_markup = await bot.get_messages(FROM_CHANNEL_ID,message.id)
-            msg_ids_lis = sorted(msg_reply_markup.text.split())
+    elif "Link" in message.text or message.reply_markup:
+        if not ("Batch Link" or 'Got File Link') in message.text and message.reply_markup:
+            #msg_reply_markup = await bot.get_messages(FROM_CHANNEL_ID,message.id)
+            msg_ids_lis = sorted(message.text.split())
             msg_ids_list = []
             for i in msg_ids_lis:
                 msg_ids_list.append(int(i))
@@ -94,7 +94,7 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
                 return "false"
             else:
                 return 'done'
-        if "Got File Link" in message.text:
+        elif "Got File Link" in message.text:
             msg = await bot.get_messages(FROM_CHANNEL_ID,message.id-1)
             mk = await save_media_in_channel(bot,txt,msg)
             if mk=='false':
@@ -103,6 +103,9 @@ async def proces(bot,txt,message,FROM_CHANNEL_ID):
                 
                 return "done"
             
+        else:
+            return 'go'
+    
     else:
         return "go"
 
