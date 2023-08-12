@@ -137,7 +137,7 @@ async def transfer(bot: Client, m: Message):
         return await m.reply_text(f"somthing went wrong to getting mesaage_id error - {e}")
     
     try:
-        check = 50
+        check = 100
         loops = 'true'
         start_time = datetime.datetime.now()
         txt = await m.reply_text(text="trasfering Started!")
@@ -189,7 +189,7 @@ async def transfer(bot: Client, m: Message):
                     if success==check:
                         mr = await m.reply(f"sleeping for 20 min")
                         await asyncio.sleep(1200)
-                        check+=50
+                        check+=100
                         await mr.delete()
                     
                 if loops=='false':
