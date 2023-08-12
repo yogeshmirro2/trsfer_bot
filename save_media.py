@@ -105,25 +105,34 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         
         #msg_ids_file_ids = (message_ids_str).rstrip()+"|"+(message_file_ids).rstrip("/")
         try:
-            
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=message_ids_str,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton("Delete Batch", callback_data="closeMessage")
-                ]])
+                text=f"BaTCh_LInK|{message_ids_str}",
+                disable_web_page_preview=True
             )
+            # SaveMessage = await bot.send_message(
+            #     chat_id=DB_CHANNEL,
+            #     text=message_ids_str,
+            #     disable_web_page_preview=True,
+            #     reply_markup=InlineKeyboardMarkup([[
+            #         InlineKeyboardButton("Delete Batch", callback_data="closeMessage")
+            #     ]])
+            # )
         except FloodWait as e:
             await asyncio.sleep(e.value)
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=message_ids_str,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton("Delete Batch", callback_data="closeMessage")
-                ]])
+                text=f"BaTCh_LInK|{message_ids_str}",
+                disable_web_page_preview=True
             )
+            # SaveMessage = await bot.send_message(
+            #     chat_id=DB_CHANNEL,
+            #     text=message_ids_str,
+            #     disable_web_page_preview=True,
+            #     reply_markup=InlineKeyboardMarkup([[
+            #         InlineKeyboardButton("Delete Batch", callback_data="closeMessage")
+            #     ]])
+            # )
         
         share_link1 = f"https://t.me/{Config.BOT_USERNAME}?start={Channel_string}_{str_to_b64(str(SaveMessage.id))}"
         if each_short_link:
@@ -139,7 +148,6 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
             share_link = share_link1
         
         try:
-            
             await bot.send_message(
                 chat_id=int(DB_CHANNEL),
                 text=f"#BATCH_SAVE:\n\nGot Batch Link!\n\nOpen Link - {share_link1}\n\nwithout shorted Link - {share_link1}",
@@ -256,23 +264,33 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         try:
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=message_er_id,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton("Delete file", callback_data="closeMessage")
-                ]])
+                text=f"SiNGle_LInk|{message_er_id},
+                disable_web_page_preview=True
             )
+            # SaveMessage = await bot.send_message(
+            #     chat_id=DB_CHANNEL,
+            #     text=message_er_id,
+            #     disable_web_page_preview=True,
+            #     reply_markup=InlineKeyboardMarkup([[
+            #         InlineKeyboardButton("Delete file", callback_data="closeMessage")
+            #     ]])
+            # )
         
         except FloodWait as e:
             await asyncio.sleep(e.value)
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=message_er_id,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton("Delete file", callback_data="closeMessage")
-                ]])
+                text=f"SiNGle_LInk|{message_er_id},
+                disable_web_page_preview=True
             )
+            # SaveMessage = await bot.send_message(
+            #     chat_id=DB_CHANNEL,
+            #     text=message_er_id,
+            #     disable_web_page_preview=True,
+            #     reply_markup=InlineKeyboardMarkup([[
+            #         InlineKeyboardButton("Delete file", callback_data="closeMessage")
+            #     ]])
+            # )
         
         share_link1 = f"https://t.me/{Config.BOT_USERNAME}?start={Channel_string}_{str_to_b64(str(SaveMessage.id))}"
         if each_short_link:
