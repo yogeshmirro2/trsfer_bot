@@ -107,7 +107,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         try:
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=f"BaTCh_LInK|{message_ids_str}",
+                text=f"#BaTCh_LInK|{message_ids_str}",
                 disable_web_page_preview=True
             )
             # SaveMessage = await bot.send_message(
@@ -122,7 +122,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
             await asyncio.sleep(e.value)
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=f"BaTCh_LInK|{message_ids_str}",
+                text=f"#BaTCh_LInK|{message_ids_str}",
                 disable_web_page_preview=True
             )
             # SaveMessage = await bot.send_message(
@@ -264,7 +264,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         try:
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=f"SiNGle_LInk|{message_er_id}",
+                text=f"#SiNGle_LInk|{message_er_id}",
                 disable_web_page_preview=True
             )
             # SaveMessage = await bot.send_message(
@@ -280,7 +280,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
             await asyncio.sleep(e.value)
             SaveMessage = await bot.send_message(
                 chat_id=DB_CHANNEL,
-                text=f"SiNGle_LInk|{message_er_id}",
+                text=f"#SiNGle_LInk|{message_er_id}",
                 disable_web_page_preview=True
             )
             # SaveMessage = await bot.send_message(
